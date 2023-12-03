@@ -1,8 +1,14 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
- */
+
 package progpattproject;
+
+import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Locale;
+import java.util.Map;
+import java.util.ResourceBundle;
+import javax.swing.DefaultComboBoxModel;
+import javax.swing.table.DefaultTableModel;
 
 /**
  *
@@ -10,11 +16,40 @@ package progpattproject;
  */
 public class StudentForm extends javax.swing.JFrame {
 
+    private ResourceBundle bundle;
+    private ResourceBundle bundleFR;
+
     /**
      * Creates new form StudentForm
      */
     public StudentForm() {
         initComponents();
+
+        bundle = ResourceBundle.getBundle("FormLanguage");
+        bundleFR = ResourceBundle.getBundle("FormLanguage", Locale.FRANCE);
+    }
+
+    public void dataUpdate() {
+        DefaultTableModel model = (DefaultTableModel) booksTable.getModel();
+        model.setRowCount(0);
+        Controller.getInstance().getLibCon().updateArrays();
+        ArrayList<Book> books = Controller.getInstance().getLibCon().getBooks();
+        for (Book b : books) {
+            Object[] o = new Object[]{b.getSN(), b.getTitle(), b.getAuthor(), b.getPublisher(), b.getPrice(), b.getQte(), b.getIssuedQte(), b.getDateOfPurchase().toString()};
+            model.addRow(o);
+        }
+        model.fireTableDataChanged();
+    }
+
+    public void tableUpdate(List<Book> books) {
+        DefaultTableModel model = (DefaultTableModel) booksTable.getModel();
+        model.setRowCount(0);
+        Controller.getInstance().getLibCon().updateArrays();
+        for (Book b : books) {
+            Object[] o = new Object[]{b.getSN(), b.getTitle(), b.getAuthor(), b.getPublisher(), b.getPrice(), b.getQte(), b.getIssuedQte(), b.getDateOfPurchase().toString()};
+            model.addRow(o);
+        }
+        model.fireTableDataChanged();
     }
 
     /**
@@ -27,31 +62,374 @@ public class StudentForm extends javax.swing.JFrame {
     private void initComponents() {
 
         buttonGroup1 = new javax.swing.ButtonGroup();
+        jScrollPane3 = new javax.swing.JScrollPane();
+        jTextArea2 = new javax.swing.JTextArea();
         returnBtn = new javax.swing.JButton();
         englishBtn = new javax.swing.JRadioButton();
         frenchBtn = new javax.swing.JRadioButton();
         jPanel1 = new javax.swing.JPanel();
+        searchLabel = new javax.swing.JLabel();
+        searchByLabel = new javax.swing.JLabel();
+        nameLabel = new javax.swing.JLabel();
+        searchBtn = new javax.swing.JButton();
+        nameInput = new javax.swing.JTextField();
+        optionsBox = new javax.swing.JComboBox<>();
+        jPanel2 = new javax.swing.JPanel();
+        borrowBookLabel = new javax.swing.JLabel();
+        borrowSNLabel = new javax.swing.JLabel();
+        borrowStuIDLabel = new javax.swing.JLabel();
+        borrowSN = new javax.swing.JTextField();
+        borrowStuID = new javax.swing.JTextField();
+        borrowBookBtn = new javax.swing.JButton();
+        jPanel3 = new javax.swing.JPanel();
+        returnBookLabel = new javax.swing.JLabel();
+        returnSNLabel = new javax.swing.JLabel();
+        returnSN = new javax.swing.JTextField();
+        returnStuIDLabel = new javax.swing.JLabel();
+        returnStuID = new javax.swing.JTextField();
+        returnBookBtn = new javax.swing.JButton();
+        jPanel4 = new javax.swing.JPanel();
+        jScrollPane1 = new javax.swing.JScrollPane();
+        booksTable = new javax.swing.JTable();
+        resetBtn = new javax.swing.JButton();
+        jPanel5 = new javax.swing.JPanel();
+        catalogueLabel = new javax.swing.JLabel();
+        viewAllBtn = new javax.swing.JButton();
+        issuedBooksBtn = new javax.swing.JButton();
+        jScrollPane2 = new javax.swing.JScrollPane();
+        bookTextArea = new javax.swing.JTextArea();
+        outputTextArea = new javax.swing.JTextField();
+
+        jTextArea2.setColumns(20);
+        jTextArea2.setRows(5);
+        jScrollPane3.setViewportView(jTextArea2);
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        addWindowListener(new java.awt.event.WindowAdapter() {
+            public void windowActivated(java.awt.event.WindowEvent evt) {
+                formWindowActivated(evt);
+            }
+        });
 
         returnBtn.setFont(new java.awt.Font("Calibri Light", 0, 14)); // NOI18N
         returnBtn.setText("Return to Previous Menu");
+        returnBtn.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                returnBtnActionPerformed(evt);
+            }
+        });
 
+        buttonGroup1.add(englishBtn);
         englishBtn.setText("English");
+        englishBtn.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                englishBtnActionPerformed(evt);
+            }
+        });
 
+        buttonGroup1.add(frenchBtn);
         frenchBtn.setText("French");
+        frenchBtn.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                frenchBtnActionPerformed(evt);
+            }
+        });
 
+        jPanel1.setBackground(new java.awt.Color(255, 204, 255));
         jPanel1.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
+        jPanel1.setForeground(new java.awt.Color(255, 255, 255));
+
+        searchLabel.setFont(new java.awt.Font("Calibri Light", 0, 18)); // NOI18N
+        searchLabel.setText("Search for a Book");
+
+        searchByLabel.setFont(new java.awt.Font("Calibri Light", 0, 14)); // NOI18N
+        searchByLabel.setText("Search By");
+
+        nameLabel.setFont(new java.awt.Font("Calibri Light", 0, 14)); // NOI18N
+        nameLabel.setText("Name");
+
+        searchBtn.setFont(new java.awt.Font("Calibri Light", 0, 14)); // NOI18N
+        searchBtn.setText("Search");
+        searchBtn.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                searchBtnActionPerformed(evt);
+            }
+        });
+
+        optionsBox.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Title", "Author", "Publisher" }));
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 216, Short.MAX_VALUE)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel1Layout.createSequentialGroup()
+                        .addComponent(nameLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(50, 50, 50)
+                        .addComponent(nameInput))
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addComponent(searchByLabel, javax.swing.GroupLayout.DEFAULT_SIZE, 81, Short.MAX_VALUE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(optionsBox, javax.swing.GroupLayout.PREFERRED_SIZE, 141, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addGap(15, 15, 15))
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addGap(78, 78, 78)
+                .addComponent(searchBtn)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(searchLabel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addContainerGap())
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 209, Short.MAX_VALUE)
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(searchLabel)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(searchByLabel)
+                    .addComponent(optionsBox, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(18, 18, 18)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(nameLabel)
+                    .addComponent(nameInput, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(18, 18, 18)
+                .addComponent(searchBtn)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        );
+
+        jPanel2.setBackground(new java.awt.Color(255, 204, 255));
+        jPanel2.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
+
+        borrowBookLabel.setFont(new java.awt.Font("Calibri Light", 0, 18)); // NOI18N
+        borrowBookLabel.setText("Borrow Book");
+
+        borrowSNLabel.setFont(new java.awt.Font("Calibri Light", 0, 14)); // NOI18N
+        borrowSNLabel.setText("SN");
+
+        borrowStuIDLabel.setFont(new java.awt.Font("Calibri Light", 0, 14)); // NOI18N
+        borrowStuIDLabel.setText("Student Number");
+
+        borrowBookBtn.setFont(new java.awt.Font("Calibri Light", 0, 14)); // NOI18N
+        borrowBookBtn.setText("Borrow Book");
+        borrowBookBtn.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                borrowBookBtnActionPerformed(evt);
+            }
+        });
+
+        javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
+        jPanel2.setLayout(jPanel2Layout);
+        jPanel2Layout.setHorizontalGroup(
+            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel2Layout.createSequentialGroup()
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel2Layout.createSequentialGroup()
+                        .addContainerGap()
+                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(borrowSNLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 91, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(borrowStuIDLabel))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(borrowStuID, javax.swing.GroupLayout.DEFAULT_SIZE, 109, Short.MAX_VALUE)
+                            .addComponent(borrowSN)))
+                    .addGroup(jPanel2Layout.createSequentialGroup()
+                        .addGap(60, 60, 60)
+                        .addComponent(borrowBookBtn)
+                        .addGap(0, 0, Short.MAX_VALUE))
+                    .addGroup(jPanel2Layout.createSequentialGroup()
+                        .addContainerGap()
+                        .addComponent(borrowBookLabel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                .addContainerGap())
+        );
+        jPanel2Layout.setVerticalGroup(
+            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel2Layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(borrowBookLabel)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(borrowSNLabel)
+                    .addComponent(borrowSN, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(18, 18, 18)
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(borrowStuIDLabel)
+                    .addComponent(borrowStuID, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(18, 18, 18)
+                .addComponent(borrowBookBtn)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        );
+
+        jPanel3.setBackground(new java.awt.Color(255, 204, 255));
+        jPanel3.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
+
+        returnBookLabel.setFont(new java.awt.Font("Calibri Light", 0, 18)); // NOI18N
+        returnBookLabel.setText("Return Book");
+
+        returnSNLabel.setFont(new java.awt.Font("Calibri Light", 0, 14)); // NOI18N
+        returnSNLabel.setText("SN");
+
+        returnStuIDLabel.setFont(new java.awt.Font("Calibri Light", 0, 14)); // NOI18N
+        returnStuIDLabel.setText("Student Number");
+
+        returnBookBtn.setFont(new java.awt.Font("Calibri Light", 0, 14)); // NOI18N
+        returnBookBtn.setText("Return Book");
+        returnBookBtn.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                returnBookBtnActionPerformed(evt);
+            }
+        });
+
+        javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
+        jPanel3.setLayout(jPanel3Layout);
+        jPanel3Layout.setHorizontalGroup(
+            jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel3Layout.createSequentialGroup()
+                .addGap(0, 0, Short.MAX_VALUE)
+                .addComponent(returnBookBtn)
+                .addGap(63, 63, 63))
+            .addGroup(jPanel3Layout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(returnBookLabel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addGroup(jPanel3Layout.createSequentialGroup()
+                        .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(returnStuIDLabel)
+                            .addComponent(returnSNLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 91, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(returnSN, javax.swing.GroupLayout.DEFAULT_SIZE, 118, Short.MAX_VALUE)
+                            .addComponent(returnStuID))))
+                .addContainerGap())
+        );
+        jPanel3Layout.setVerticalGroup(
+            jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel3Layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(returnBookLabel)
+                .addGap(18, 18, 18)
+                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(returnSNLabel)
+                    .addComponent(returnSN, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(18, 18, 18)
+                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(returnStuIDLabel)
+                    .addComponent(returnStuID, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(22, 22, 22)
+                .addComponent(returnBookBtn)
+                .addContainerGap(23, Short.MAX_VALUE))
+        );
+
+        jPanel4.setBackground(new java.awt.Color(255, 204, 255));
+        jPanel4.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
+
+        booksTable.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+                {null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null}
+            },
+            new String [] {
+                "SN", "Name", "Author", "Publisher", "Price", "QTY", "Issued QTY", "Date"
+            }
+        ));
+        jScrollPane1.setViewportView(booksTable);
+
+        resetBtn.setFont(new java.awt.Font("Calibri Light", 0, 14)); // NOI18N
+        resetBtn.setText("Reset Table");
+        resetBtn.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                resetBtnActionPerformed(evt);
+            }
+        });
+
+        javax.swing.GroupLayout jPanel4Layout = new javax.swing.GroupLayout(jPanel4);
+        jPanel4.setLayout(jPanel4Layout);
+        jPanel4Layout.setHorizontalGroup(
+            jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel4Layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jScrollPane1)
+                .addContainerGap())
+            .addGroup(jPanel4Layout.createSequentialGroup()
+                .addGap(298, 298, 298)
+                .addComponent(resetBtn)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        );
+        jPanel4Layout.setVerticalGroup(
+            jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel4Layout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(resetBtn)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 166, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap())
+        );
+
+        jPanel5.setBackground(new java.awt.Color(255, 204, 255));
+        jPanel5.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
+
+        catalogueLabel.setFont(new java.awt.Font("Calibri Light", 0, 18)); // NOI18N
+        catalogueLabel.setText("Book Catologue");
+
+        viewAllBtn.setFont(new java.awt.Font("Calibri Light", 0, 14)); // NOI18N
+        viewAllBtn.setText("View all Books");
+        viewAllBtn.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                viewAllBtnActionPerformed(evt);
+            }
+        });
+
+        issuedBooksBtn.setFont(new java.awt.Font("Calibri Light", 0, 14)); // NOI18N
+        issuedBooksBtn.setText("View Issued Books");
+        issuedBooksBtn.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                issuedBooksBtnActionPerformed(evt);
+            }
+        });
+
+        bookTextArea.setColumns(20);
+        bookTextArea.setRows(5);
+        jScrollPane2.setViewportView(bookTextArea);
+
+        javax.swing.GroupLayout jPanel5Layout = new javax.swing.GroupLayout(jPanel5);
+        jPanel5.setLayout(jPanel5Layout);
+        jPanel5Layout.setHorizontalGroup(
+            jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel5Layout.createSequentialGroup()
+                .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel5Layout.createSequentialGroup()
+                        .addContainerGap()
+                        .addComponent(jScrollPane2))
+                    .addGroup(jPanel5Layout.createSequentialGroup()
+                        .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(jPanel5Layout.createSequentialGroup()
+                                .addGap(213, 213, 213)
+                                .addComponent(viewAllBtn)
+                                .addGap(62, 62, 62)
+                                .addComponent(issuedBooksBtn))
+                            .addGroup(jPanel5Layout.createSequentialGroup()
+                                .addContainerGap()
+                                .addComponent(catalogueLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 329, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addGap(0, 0, Short.MAX_VALUE)))
+                .addContainerGap())
+        );
+        jPanel5Layout.setVerticalGroup(
+            jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel5Layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(catalogueLabel)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(viewAllBtn)
+                    .addComponent(issuedBooksBtn))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 122, Short.MAX_VALUE)
+                .addContainerGap())
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -59,37 +437,258 @@ public class StudentForm extends javax.swing.JFrame {
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(256, 256, 256)
-                .addComponent(returnBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 193, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 185, Short.MAX_VALUE)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(englishBtn, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 98, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(frenchBtn, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 98, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap())
-            .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jPanel4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jPanel5, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addGroup(layout.createSequentialGroup()
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                            .addComponent(outputTextArea)
+                            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(layout.createSequentialGroup()
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(jPanel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                            .addGroup(layout.createSequentialGroup()
+                                .addGap(32, 32, 32)
+                                .addComponent(returnBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 236, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(englishBtn, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 98, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(frenchBtn, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 98, javax.swing.GroupLayout.PREFERRED_SIZE))))))
+                .addContainerGap())
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
+                .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addGap(17, 17, 17)
-                        .addComponent(returnBtn))
-                    .addGroup(layout.createSequentialGroup()
-                        .addContainerGap()
                         .addComponent(englishBtn)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(frenchBtn)))
+                        .addComponent(frenchBtn))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(outputTextArea, javax.swing.GroupLayout.PREFERRED_SIZE, 39, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(returnBtn)))
                 .addGap(10, 10, 10)
-                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(333, Short.MAX_VALUE))
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jPanel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(jPanel4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jPanel5, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addContainerGap())
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
+
+    private void returnBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_returnBtnActionPerformed
+        PickUser userForm = new PickUser();
+        userForm.setVisible(true);
+        this.setVisible(false);
+    }//GEN-LAST:event_returnBtnActionPerformed
+
+    private void englishBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_englishBtnActionPerformed
+        englishBtn.setText(bundle.getString("English"));
+        frenchBtn.setText(bundle.getString("French"));      
+        returnBtn.setText(bundle.getString("ReturnToMenu"));
+        
+        String[] strings = {bundle.getString("Title"), bundle.getString("Author"), bundle.getString("Publisher")};
+        DefaultComboBoxModel<String> model = new DefaultComboBoxModel<>(strings);
+        optionsBox.setModel(model);
+        
+        searchLabel.setText(bundle.getString("SearchFor"));
+        nameLabel.setText(bundle.getString("Name"));
+        catalogueLabel.setText(bundle.getString("BookCatalogue"));
+        viewAllBtn.setText(bundle.getString("ViewBooks"));
+        issuedBooksBtn.setText(bundle.getString("ViewIssuedBooks"));
+        searchByLabel.setText(bundle.getString("SearchBy"));
+        searchBtn.setText(bundle.getString("Search"));
+        resetBtn.setText(bundle.getString("Reset"));
+        borrowSNLabel.setText(bundle.getString("SN"));
+        returnSNLabel.setText(bundle.getString("SN"));
+        borrowBookLabel.setText(bundle.getString("BorrowBook"));
+        returnBookLabel.setText(bundle.getString("ReturnBook"));
+        borrowBookBtn.setText(bundle.getString("BorrowBookBtn"));
+        returnBookBtn.setText(bundle.getString("ReturnBookBtn"));    
+        borrowStuIDLabel.setText(bundle.getString("SID"));
+        returnStuIDLabel.setText(bundle.getString("SID"));
+    }//GEN-LAST:event_englishBtnActionPerformed
+
+    private void frenchBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_frenchBtnActionPerformed
+        englishBtn.setText(bundleFR.getString("English"));
+        frenchBtn.setText(bundleFR.getString("French"));      
+        returnBtn.setText(bundleFR.getString("ReturnToMenu"));
+        
+        String[] strings = {bundleFR.getString("Title"), bundleFR.getString("Author"), bundleFR.getString("Publisher")};
+        DefaultComboBoxModel<String> model = new DefaultComboBoxModel<>(strings);
+        optionsBox.setModel(model);
+        
+        searchLabel.setText(bundleFR.getString("SearchFor"));
+        nameLabel.setText(bundleFR.getString("Name"));
+        catalogueLabel.setText(bundleFR.getString("BookCatalogue"));
+        viewAllBtn.setText(bundleFR.getString("ViewBooks"));
+        issuedBooksBtn.setText(bundleFR.getString("ViewIssuedBooks"));
+        searchByLabel.setText(bundleFR.getString("SearchBy"));
+        searchBtn.setText(bundleFR.getString("Search"));
+        resetBtn.setText(bundleFR.getString("Reset"));
+        borrowSNLabel.setText(bundleFR.getString("SN"));
+        returnSNLabel.setText(bundleFR.getString("SN"));
+        borrowBookLabel.setText(bundleFR.getString("BorrowBook"));
+        returnBookLabel.setText(bundleFR.getString("ReturnBook"));
+        borrowBookBtn.setText(bundleFR.getString("BorrowBookBtn"));
+        returnBookBtn.setText(bundleFR.getString("ReturnBookBtn"));    
+        borrowStuIDLabel.setText(bundleFR.getString("SID"));
+        returnStuIDLabel.setText(bundleFR.getString("SID"));
+    }//GEN-LAST:event_frenchBtnActionPerformed
+
+    private void searchBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_searchBtnActionPerformed
+        Student student = Controller.getInstance().getLibCon().getStudents().get(0);
+        List<Book> books;
+
+        String text = optionsBox.getSelectedItem().toString();
+        System.out.println(text);
+
+        switch (text) {
+            case "Title": {
+                try {
+                    books = student.searchBookByTitle(nameInput.getText());
+                    tableUpdate(books);
+                    break;
+                } 
+                catch (SQLException ex) {
+                    outputTextArea.setText("Error");
+                }
+            }
+
+            case "Author": {
+                try {
+                    books = student.searchBookByName(nameInput.getText());
+                    tableUpdate(books);
+                    break;
+                } 
+                catch (SQLException ex) {
+                    outputTextArea.setText("Error");
+                }
+                break;
+            }
+            case "Publisher": {
+                try {
+                    books = student.searchBookByPublisher(nameInput.getText());
+                    tableUpdate(books);
+                    break;
+                } 
+                catch (SQLException ex) {
+                    outputTextArea.setText("Error");
+                }
+                break;
+            }
+            default: {
+                outputTextArea.setText("Error");
+                break;
+            }
+        }
+    }//GEN-LAST:event_searchBtnActionPerformed
+
+    private void formWindowActivated(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowActivated
+        dataUpdate();
+    }//GEN-LAST:event_formWindowActivated
+
+    private void borrowBookBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_borrowBookBtnActionPerformed
+      
+        int id = Integer.valueOf(borrowStuID.getText());
+
+            try {
+                ArrayList<Book> books = Controller.getInstance().getLibCon().getBooks();
+                ArrayList<Student> students = Controller.getInstance().getLibCon().getStudents();
+                Book tempBook = null;
+                Student tempStudent = null;
+                
+                for (Book b : books) {
+                    if (b.getSN().equals(borrowSN.getText())) {
+                        tempBook = b;
+                    }
+                }
+                
+                for (Student s : students) {
+                    if (s.getStId() == id) {
+                        tempStudent = s;
+                    }
+                }
+                
+                if (tempBook != null && tempStudent != null) {
+                    tempBook.issueBook(tempBook, tempStudent);
+                    outputTextArea.setText("Book Borrowed");
+                } 
+                else {
+                    outputTextArea.setText("No book or student");
+                }
+            } 
+            catch (SQLException ex) {
+                outputTextArea.setText("Error");
+            }
+    }//GEN-LAST:event_borrowBookBtnActionPerformed
+
+    private void returnBookBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_returnBookBtnActionPerformed
+        
+        int id = Integer.valueOf(returnStuID.getText());
+        
+        try {
+            ArrayList<Book> books = Controller.getInstance().getLibCon().getBooks();
+            ArrayList<Student> students = Controller.getInstance().getLibCon().getStudents();
+            
+            Book tempBook = null;
+            Student tempStudent = null;
+            
+            for (Book b : books) {
+                if (b.getSN().equals(returnSN.getText())) {
+                    tempBook = b;
+                }
+            }
+            for (Student s : students) {
+                if (s.getStId() == id) {
+                    tempStudent = s;
+                }
+            }
+            if (tempBook != null && tempStudent != null) {
+                tempBook.returnBook(tempBook, tempStudent);
+                outputTextArea.setText("Book returned");
+            } 
+            else {
+                outputTextArea.setText("No book or student");
+            }
+        } catch (SQLException ex) {
+            outputTextArea.setText("Error");
+        }
+    }//GEN-LAST:event_returnBookBtnActionPerformed
+
+    private void viewAllBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_viewAllBtnActionPerformed
+        bookTextArea.setText("");
+        
+        Map<String, String> map = Book.viewCatalog();
+        for (Map.Entry<String, String> entry : map.entrySet()) {
+            bookTextArea.append(entry.toString() +"\n");
+        }
+    }//GEN-LAST:event_viewAllBtnActionPerformed
+
+    private void issuedBooksBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_issuedBooksBtnActionPerformed
+        bookTextArea.setText("");
+        
+        Map<String, String> map = Book.viewIssuedBooks();
+        for (Map.Entry<String, String> entry : map.entrySet()) {
+            bookTextArea.append(entry.toString() +"\n");
+        }
+    }//GEN-LAST:event_issuedBooksBtnActionPerformed
+
+    private void resetBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_resetBtnActionPerformed
+        dataUpdate();
+        outputTextArea.setText("Table reset");
+    }//GEN-LAST:event_resetBtnActionPerformed
 
     /**
      * @param args the command line arguments
@@ -127,10 +726,43 @@ public class StudentForm extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JTextArea bookTextArea;
+    private javax.swing.JTable booksTable;
+    private javax.swing.JButton borrowBookBtn;
+    private javax.swing.JLabel borrowBookLabel;
+    private javax.swing.JTextField borrowSN;
+    private javax.swing.JLabel borrowSNLabel;
+    private javax.swing.JTextField borrowStuID;
+    private javax.swing.JLabel borrowStuIDLabel;
     private javax.swing.ButtonGroup buttonGroup1;
+    private javax.swing.JLabel catalogueLabel;
     private javax.swing.JRadioButton englishBtn;
     private javax.swing.JRadioButton frenchBtn;
+    private javax.swing.JButton issuedBooksBtn;
     private javax.swing.JPanel jPanel1;
+    private javax.swing.JPanel jPanel2;
+    private javax.swing.JPanel jPanel3;
+    private javax.swing.JPanel jPanel4;
+    private javax.swing.JPanel jPanel5;
+    private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JScrollPane jScrollPane2;
+    private javax.swing.JScrollPane jScrollPane3;
+    private javax.swing.JTextArea jTextArea2;
+    private javax.swing.JTextField nameInput;
+    private javax.swing.JLabel nameLabel;
+    private javax.swing.JComboBox<String> optionsBox;
+    private javax.swing.JTextField outputTextArea;
+    private javax.swing.JButton resetBtn;
+    private javax.swing.JButton returnBookBtn;
+    private javax.swing.JLabel returnBookLabel;
     private javax.swing.JButton returnBtn;
+    private javax.swing.JTextField returnSN;
+    private javax.swing.JLabel returnSNLabel;
+    private javax.swing.JTextField returnStuID;
+    private javax.swing.JLabel returnStuIDLabel;
+    private javax.swing.JButton searchBtn;
+    private javax.swing.JLabel searchByLabel;
+    private javax.swing.JLabel searchLabel;
+    private javax.swing.JButton viewAllBtn;
     // End of variables declaration//GEN-END:variables
 }

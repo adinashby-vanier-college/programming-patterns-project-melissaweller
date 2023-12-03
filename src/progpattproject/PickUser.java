@@ -1,16 +1,24 @@
 package progpattproject;
 
+import java.util.Locale;
+import java.util.ResourceBundle;
+
 /**
  *
  * @author melis
  */
 public class PickUser extends javax.swing.JFrame {
 
+    private ResourceBundle bundle;
+    private ResourceBundle bundleFR;
+    
     /**
      * Creates new form PickUser
      */
     public PickUser() {
         initComponents();
+        bundle = ResourceBundle.getBundle("FormLanguage");
+        bundleFR = ResourceBundle.getBundle("FormLanguage", Locale.FRANCE);
     }
 
     /**
@@ -24,10 +32,10 @@ public class PickUser extends javax.swing.JFrame {
 
         buttonGroup1 = new javax.swing.ButtonGroup();
         jPanel1 = new javax.swing.JPanel();
-        jLabel1 = new javax.swing.JLabel();
+        pickLabel = new javax.swing.JLabel();
         librarianButton = new javax.swing.JButton();
         studentButton = new javax.swing.JButton();
-        jLabel2 = new javax.swing.JLabel();
+        welcomeLabel = new javax.swing.JLabel();
         englishBtn = new javax.swing.JRadioButton();
         frenchBtn = new javax.swing.JRadioButton();
 
@@ -42,8 +50,8 @@ public class PickUser extends javax.swing.JFrame {
 
         jPanel1.setBackground(new java.awt.Color(255, 204, 255));
 
-        jLabel1.setFont(new java.awt.Font("Calibri Light", 0, 24)); // NOI18N
-        jLabel1.setText("Pick a User");
+        pickLabel.setFont(new java.awt.Font("Calibri Light", 0, 24)); // NOI18N
+        pickLabel.setText("Pick a User");
 
         librarianButton.setText("Librarian");
         librarianButton.addActionListener(new java.awt.event.ActionListener() {
@@ -59,8 +67,8 @@ public class PickUser extends javax.swing.JFrame {
             }
         });
 
-        jLabel2.setFont(new java.awt.Font("Calibri Light", 0, 24)); // NOI18N
-        jLabel2.setText("Welcome to the Library Management System");
+        welcomeLabel.setFont(new java.awt.Font("Calibri Light", 0, 24)); // NOI18N
+        welcomeLabel.setText("Welcome to the Library Management System");
 
         buttonGroup1.add(englishBtn);
         englishBtn.setText("English");
@@ -84,40 +92,39 @@ public class PickUser extends javax.swing.JFrame {
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addGap(234, 234, 234)
-                .addComponent(jLabel1)
+                .addComponent(pickLabel)
                 .addGap(0, 0, Short.MAX_VALUE))
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                .addContainerGap(70, Short.MAX_VALUE)
+                .addContainerGap(42, Short.MAX_VALUE)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(welcomeLabel, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 543, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                        .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 461, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(60, 60, 60))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                        .addComponent(librarianButton, javax.swing.GroupLayout.PREFERRED_SIZE, 106, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(75, 75, 75)
-                        .addComponent(studentButton, javax.swing.GroupLayout.PREFERRED_SIZE, 106, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(166, 166, 166))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                        .addComponent(frenchBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 98, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addContainerGap())
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                        .addComponent(englishBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 98, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addContainerGap())))
+                        .addComponent(librarianButton, javax.swing.GroupLayout.PREFERRED_SIZE, 129, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                            .addGroup(jPanel1Layout.createSequentialGroup()
+                                .addGap(231, 231, 231)
+                                .addComponent(frenchBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 98, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGroup(jPanel1Layout.createSequentialGroup()
+                                .addGap(34, 34, 34)
+                                .addComponent(studentButton, javax.swing.GroupLayout.PREFERRED_SIZE, 129, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(englishBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 98, javax.swing.GroupLayout.PREFERRED_SIZE)))))
+                .addContainerGap())
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
-                .addGap(14, 14, 14)
-                .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 115, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 42, Short.MAX_VALUE)
-                .addComponent(jLabel1)
+                .addContainerGap()
+                .addComponent(welcomeLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 62, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 103, Short.MAX_VALUE)
+                .addComponent(pickLabel)
                 .addGap(18, 18, 18)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(studentButton, javax.swing.GroupLayout.PREFERRED_SIZE, 41, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(librarianButton, javax.swing.GroupLayout.PREFERRED_SIZE, 41, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(55, 55, 55))
+                            .addComponent(librarianButton, javax.swing.GroupLayout.PREFERRED_SIZE, 41, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(studentButton, javax.swing.GroupLayout.PREFERRED_SIZE, 41, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(53, 53, 53))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
                         .addComponent(englishBtn)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -158,11 +165,22 @@ public class PickUser extends javax.swing.JFrame {
     }//GEN-LAST:event_studentButtonActionPerformed
 
     private void englishBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_englishBtnActionPerformed
-        // TODO add your handling code here:
+        englishBtn.setText(bundle.getString("English"));
+        frenchBtn.setText(bundle.getString("French"));      
+        
+        studentButton.setText(bundle.getString("Student")); 
+        librarianButton.setText(bundle.getString("Librarian"));
+        pickLabel.setText(bundle.getString("PickAUser"));
+        welcomeLabel.setText(bundle.getString("Welcome"));
     }//GEN-LAST:event_englishBtnActionPerformed
 
     private void frenchBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_frenchBtnActionPerformed
-        // TODO add your handling code here:
+        englishBtn.setText(bundleFR.getString("English"));
+        frenchBtn.setText(bundleFR.getString("French"));      
+        studentButton.setText(bundleFR.getString("Student")); 
+        librarianButton.setText(bundleFR.getString("Librarian"));
+        pickLabel.setText(bundleFR.getString("PickAUser"));
+        welcomeLabel.setText(bundleFR.getString("Welcome"));
     }//GEN-LAST:event_frenchBtnActionPerformed
 
     /**
@@ -204,10 +222,10 @@ public class PickUser extends javax.swing.JFrame {
     private javax.swing.ButtonGroup buttonGroup1;
     private javax.swing.JRadioButton englishBtn;
     private javax.swing.JRadioButton frenchBtn;
-    private javax.swing.JLabel jLabel1;
-    private javax.swing.JLabel jLabel2;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JButton librarianButton;
+    private javax.swing.JLabel pickLabel;
     private javax.swing.JButton studentButton;
+    private javax.swing.JLabel welcomeLabel;
     // End of variables declaration//GEN-END:variables
 }
