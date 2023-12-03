@@ -14,13 +14,13 @@ public class ViewController {
         this.pForm = pForm;
     }
 
-//    public void showPForm() {
-//        pForm.setVisible(true);
-//    }
-//    
-//    public void hidePForm() {
-//        pForm.setVisible(false);
-//    }
+    public void showPForm() {
+        pForm.setVisible(true);
+    }
+    
+    public void hidePForm() {
+        pForm.setVisible(false);
+    }
     
     public StudentUser getStuUser(){
         return stuUser;

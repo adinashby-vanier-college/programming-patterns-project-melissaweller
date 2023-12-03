@@ -106,8 +106,6 @@ public class Book {
             return true;
         } catch (Exception e) {
             System.err.println("Got an exception!"); 
-            System.out.println(query);
-            System.out.println(e);
         }
         return false;
     }
@@ -124,7 +122,6 @@ public class Book {
             return true;
         } catch (Exception e) {
             System.err.println("Got an exception!"); 
-            System.out.println(e);
         }
         return false;
     }
@@ -139,7 +136,6 @@ public class Book {
             return true;
         } catch (Exception e) {
             System.err.println("Got an exception!"); 
-            System.out.println(e);
         }
         return false;
     }
@@ -153,9 +149,8 @@ public class Book {
             ResultSet rs = stmt.executeQuery(query);
             
             while (rs.next()) {
-                String key = rs.getString("SN");
-                String value = rs.getString("SN");
-                value += " , " + rs.getString("Title");
+                String key = rs.getString("Title");
+                String value = rs.getString("Title");
                 value += " , " + rs.getString("Author");
                 value += " , " + rs.getString("Publisher");
                 value += " , " + rs.getString("Price");
@@ -175,13 +170,15 @@ public class Book {
     public static Map<String, String> viewIssuedBooks() {
         String query = "select * from IssuedBooks";
         Map<String, String> books = new TreeMap<>();
+        
         Connection tempcon = DatabaseConnection.getConnection();
+        
         try (Statement stmt = tempcon.createStatement()) {
             ResultSet rs = stmt.executeQuery(query);
-            while (rs.next()) {
+            
+            while (rs.next()) {  
                 String key = rs.getString("SN");
                 String value = rs.getString("SN");
-                value += " , " + rs.getString("SN");
                 value += " , " + rs.getString("StId");
                 value += " , " + rs.getString("StName");
                 value += " , " + rs.getString("StudentContact");

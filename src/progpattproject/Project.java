@@ -3,7 +3,7 @@ package progpattproject;
 import java.sql.Connection;
 
 /**
- * @author adinashby
+ * @author adinashby 
  *
  */
 public class Project {
