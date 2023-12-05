@@ -174,8 +174,10 @@ public class LibraryController {
         Connection con = DatabaseConnection.getConnection();
         String query = "select * from Students";
         students = new ArrayList<>();
+        
         try (Statement stmt = con.createStatement()) {
             ResultSet rs = stmt.executeQuery(query);
+            
             while (rs.next()) {
                 int id = Integer.parseInt(rs.getString("StudentId"));
                 String name = rs.getString("Name");
@@ -183,14 +185,18 @@ public class LibraryController {
                 Student tempStudent = new Student(id, name, contact);
                 students.add(tempStudent);
             }
-        } catch (SQLException e) {
+        } 
+        catch (SQLException e) {
             System.out.println("Error");
         }
+        
         String query2 = "select * from Books";
         books = new ArrayList<>();
+        
         try (Statement stmt = con.createStatement()) {
             ResultSet rs = stmt.executeQuery(query2);
             System.out.println(rs.toString());
+            
             while (rs.next()) {
                 String SN = rs.getString("SN");
                 String tempTitle = rs.getString("Title");
@@ -206,7 +212,8 @@ public class LibraryController {
                 books.add(tempBook);
             }
             stmt.close();
-        } catch (SQLException e) {
+        } 
+        catch (SQLException e) {
             System.out.println("Error");
         }
     }

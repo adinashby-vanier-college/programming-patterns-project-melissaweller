@@ -49,8 +49,10 @@ public class Student {
     public List<Book> searchBookByTitle(String title) throws SQLException {
         String query = "select * from Books where Title = '" + title + "'";
         List <Book> books = new ArrayList<>();
+        
         try (Statement stmt = con.createStatement()) {
             ResultSet rs = stmt.executeQuery(query);
+            
             while (rs.next()) {
                 String SN = rs.getString("SN");
                 String tempTitle = rs.getString("Title");
@@ -66,7 +68,8 @@ public class Student {
                 books.add(tempBook);
             }
             stmt.close();
-        } catch (SQLException e) {
+        } 
+        catch (SQLException e) {
             System.out.println("Error");
         }
         return books;
@@ -94,7 +97,8 @@ public class Student {
                 books.add(tempBook);
             }
             stmt.close();
-        } catch (SQLException e) {
+        } 
+        catch (SQLException e) {
             System.out.println("Error");
         }
         return books;
@@ -103,8 +107,10 @@ public class Student {
     public List<Book> searchBookByPublisher(String publisher) throws SQLException {
         String query = "select * from Books where Publisher = '" + publisher + "'";
         List<Book> books = new ArrayList<>();
+        
         try (Statement stmt = con.createStatement()) {
             ResultSet rs = stmt.executeQuery(query);
+            
             while (rs.next()) {
                 String SN = rs.getString("SN");
                 String tempTitle = rs.getString("Title");
@@ -120,7 +126,8 @@ public class Student {
                 books.add(tempBook);
             }
             stmt.close();
-        } catch (SQLException e) {
+        } 
+        catch (SQLException e) {
             System.out.println("Error");
             System.out.println(e);
         }
@@ -132,12 +139,14 @@ public class Student {
                 this.stId + "','" + this.name + "','" + this.contactNumber + "','" + 
                 LocalDate.now().toString() + "')";
         String query2 = "Update Books set Quantity = Quantity - 1, Issued = Issued + 1 where SN = '" + book.SN; 
+        
         try (Statement stmt = con.createStatement()) {
             stmt.executeUpdate(query);
             stmt.executeUpdate(query2);
             stmt.close();
             return true;
-        } catch (Exception e) {
+        } 
+        catch (Exception e) {
             System.err.println("Got an exception!"); 
             System.out.println(e);
         }
@@ -147,12 +156,14 @@ public class Student {
     public boolean isReturn(Book book) throws SQLException{
         String query = "Update Books set Quantity = Quantity + 1, Issued = Issued - 1 where SN = " + book.SN;
         String query2 = "DELETE FROM IssuedBooks WHERE SN = '" + book.SN + "' AND StId = '" + this.stId + "'";
+        
         try (Statement stmt = con.createStatement()) {
             stmt.executeUpdate(query);
             stmt.executeUpdate(query2);
             stmt.close();
             return true;
-        } catch (Exception e) {
+        } 
+        catch (Exception e) {
             System.err.println("Got an exception!");
             System.out.println(e);
         }
@@ -162,13 +173,15 @@ public class Student {
     public Map<String, String> viewCatalog() {
         String query = "select * from Books";
         Map<String, String> books = new TreeMap<>();
+        
         try (Statement stmt = con.createStatement()) {
             ResultSet rs = stmt.executeQuery(query);
+            
             while (rs.next()) {
                 String key = rs.getString("SN");
                 String value = rs.getString("SN");
-                value += " , " + rs.getString("Title");
-                value += " , " + rs.getString("Author");
+                value += "Title: " + rs.getString("Title") + " ,";
+                value += "Author: " + rs.getString("Author");
                 value += " , " + rs.getString("Publisher");
                 value += " , " + rs.getString("Price");
                 value += " , " + rs.getString("Quantity");
@@ -177,12 +190,14 @@ public class Student {
                 books.put(key, value);
             }
             stmt.close();
-        } catch (SQLException e) {
+        } 
+        catch (SQLException e) {
             System.out.println("Error");
             System.out.println(e);
         }
         Set s = books.entrySet();
         Iterator i = s.iterator();
+        
         while (i.hasNext()) {
             Map.Entry m = (Map.Entry)i.next();
             String key = (String)m.getKey();
@@ -197,11 +212,13 @@ public class Student {
         String query = "insert into Students (StudentId, Name, Contact) VALUES('" + student.stId + "','" + student.name
                 + "','" + student.contactNumber + "');";
         System.out.println(query);
+        
         try (Statement stmt = con.createStatement()) {
             stmt.executeUpdate(query);
             stmt.close();
             return true;
-        } catch (Exception e) {
+        } 
+        catch (Exception e) {
             System.err.println("Got an exception!"); 
             System.out.println(e);
         }

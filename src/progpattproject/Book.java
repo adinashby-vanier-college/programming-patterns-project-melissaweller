@@ -100,11 +100,13 @@ public class Book {
         String query = "insert into Books(SN, Title, Author, Publisher, Price, Quantity, Issued, addedDate) VALUES('" + book.SN + "','" + book.title 
                 + "','" + book.author + "','" + book.publisher + "','" + book.price + "','" + book.qte 
                 + "','" + book.issuedQte + "','" + book.DateOfPurchase.toString() + "')";
+        
         try (Statement stmt = con.createStatement()) {
             stmt.executeUpdate(query);
             stmt.close();
             return true;
-        } catch (Exception e) {
+        } 
+        catch (Exception e) {
             System.err.println("Got an exception!"); 
         }
         return false;
@@ -114,13 +116,16 @@ public class Book {
         String query = "Insert into IssuedBooks(SN, StId, StName, StudentContact, IssueDate) VALUES('" + book.SN + "','" + 
                 s.stId + "','" + s.name + "','" + s.contactNumber + "','" + 
                 LocalDate.now().toString() + "')";
+        
         String query2 = "Update Books set Quantity = Quantity - 1, Issued = Issued + 1 where SN = " + book.SN; 
+        
         try (Statement stmt = con.createStatement()) {
             stmt.executeUpdate(query);
             stmt.executeUpdate(query2);
             stmt.close();
             return true;
-        } catch (Exception e) {
+        } 
+        catch (Exception e) {
             System.err.println("Got an exception!"); 
         }
         return false;
@@ -129,12 +134,14 @@ public class Book {
     public boolean returnBook(Book book, Student s) throws SQLException {
         String query = "Update Books set Quantity = Quantity + 1, Issued = Issued - 1 where SN = " + book.SN;
         String query2 = "DELETE FROM IssuedBooks WHERE SN = '" + book.SN + "'AND StId = '" + s.stId + "'";
+        
         try (Statement stmt = con.createStatement()) {
             stmt.executeUpdate(query);
             stmt.executeUpdate(query2);
             stmt.close();
             return true;
-        } catch (Exception e) {
+        } 
+        catch (Exception e) {
             System.err.println("Got an exception!"); 
         }
         return false;
@@ -150,13 +157,13 @@ public class Book {
             
             while (rs.next()) {
                 String key = rs.getString("Title");
-                String value = rs.getString("Title");
-                value += " , " + rs.getString("Author");
-                value += " , " + rs.getString("Publisher");
-                value += " , " + rs.getString("Price");
-                value += " , " + rs.getString("Quantity");
-                value += " , " + rs.getString("Issued");
-                value += " , " + rs.getString("addedDate");
+                String value = " Title: " + rs.getString("Title");
+                value += " - Author: " + rs.getString("Author");
+                value += " - Publisher: " + rs.getString("Publisher");
+                value += " - Price: " + rs.getString("Price");
+                value += " - Quantity: " + rs.getString("Quantity");
+                value += " - Issued: " + rs.getString("Issued");
+                value += " - Added Date: " + rs.getString("addedDate");
                 books.put(key, value);
             }
             stmt.close();
@@ -178,11 +185,10 @@ public class Book {
             
             while (rs.next()) {  
                 String key = rs.getString("SN");
-                String value = rs.getString("SN");
-                value += " , " + rs.getString("StId");
-                value += " , " + rs.getString("StName");
-                value += " , " + rs.getString("StudentContact");
-                value += " , " + rs.getString("IssueDate");
+                String value = " Student ID: " + rs.getString("StId");
+                value += " - Student Name: " + rs.getString("StName");
+                value += " - Phone Number: " + rs.getString("StudentContact");
+                value += " - Issue Date: " + rs.getString("IssueDate");
                 books.put(key, value);
             }
             stmt.close();
